@@ -20,10 +20,12 @@ router.get('/', ProjectController.getAllProjects)
 router.get('/:id',
   param('id')
     .isMongoId().withMessage('ID no válido'),
-  handleInputErrors,
-  ProjectController.getAllProjectById)
+  handleInputErrors, 
+  ProjectController.getProjectById)
 
-router.put('/',
+router.put('/:id',
+  param('id')
+    .isMongoId().withMessage('ID no válido'),
   body('projectName')
     .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
   body('clientName')
@@ -31,6 +33,12 @@ router.put('/',
   body('description')
     .notEmpty().withMessage('La dsescripción del proyecto es obligatorio'),
   handleInputErrors,
-  ProjectController.createProject)
+  ProjectController.updateProject)
+
+router.delete('/:id',
+  param('id')
+    .isMongoId().withMessage('ID no válido'),
+  handleInputErrors, 
+  ProjectController.deleteProject)
 
 export default router
