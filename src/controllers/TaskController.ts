@@ -7,7 +7,7 @@ export class TaskController {
       const task = new Task(req.body)
       task.project = req.project._id
       req.project.tasks.push(task._id)
-      await Promise.allSettled([ task.save(), req.project.save() ])
+      await Promise.allSettled([task.save(), req.project.save()])
       res.send('Tarea creada exitosamente')
     } catch (e) {
       res.status(500).json({ error: 'Error al crear la tarea' })

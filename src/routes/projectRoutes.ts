@@ -7,55 +7,51 @@ import { validateProjectExists } from '../middleware/project'
 
 const router: Router = Router()
 
-router.post('/',
-  body('projectName')
-    .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
-  body('clientName')
-    .notEmpty().withMessage('El nombre del cliente es obligatorio'),
-  body('description')
-    .notEmpty().withMessage('La dsescripción del proyecto es obligatorio'),
+router.post(
+  '/',
+  body('projectName').notEmpty().withMessage('El nombre del proyecto es obligatorio'),
+  body('clientName').notEmpty().withMessage('El nombre del cliente es obligatorio'),
+  body('description').notEmpty().withMessage('La dsescripción del proyecto es obligatorio'),
   handleInputErrors,
-  ProjectController.createProject)
+  ProjectController.createProject
+)
 
 router.get('/', ProjectController.getAllProjects)
 
-router.get('/:id',
-  param('id')
-    .isMongoId().withMessage('ID no válido'),
+router.get(
+  '/:id',
+  param('id').isMongoId().withMessage('ID no válido'),
   handleInputErrors,
-  ProjectController.getProjectById)
+  ProjectController.getProjectById
+)
 
-router.put('/:id',
-  param('id')
-    .isMongoId().withMessage('ID no válido'),
-  body('projectName')
-    .notEmpty().withMessage('El nombre del proyecto es obligatorio'),
-  body('clientName')
-    .notEmpty().withMessage('El nombre del cliente es obligatorio'),
-  body('description')
-    .notEmpty().withMessage('La dsescripción del proyecto es obligatorio'),
+router.put(
+  '/:id',
+  param('id').isMongoId().withMessage('ID no válido'),
+  body('projectName').notEmpty().withMessage('El nombre del proyecto es obligatorio'),
+  body('clientName').notEmpty().withMessage('El nombre del cliente es obligatorio'),
+  body('description').notEmpty().withMessage('La dsescripción del proyecto es obligatorio'),
   handleInputErrors,
-  ProjectController.updateProject)
+  ProjectController.updateProject
+)
 
-router.delete('/:id',
-  param('id')
-    .isMongoId().withMessage('ID no válido'),
+router.delete(
+  '/:id',
+  param('id').isMongoId().withMessage('ID no válido'),
   handleInputErrors,
-  ProjectController.deleteProject)
+  ProjectController.deleteProject
+)
 
-router.post('/:projectId/tasks',
-  param('projectId')
-    .isMongoId().withMessage('ID de proyecto no válido'),
-  body('name')
-    .notEmpty().withMessage('El nombre de la tarea es obligatorio'),
-  body('description')
-    .notEmpty().withMessage('La dsescripción de la tarea es obligatorio'),
+router.post(
+  '/:projectId/tasks',
+  param('projectId').isMongoId().withMessage('ID de proyecto no válido'),
+  body('name').notEmpty().withMessage('El nombre de la tarea es obligatorio'),
+  body('description').notEmpty().withMessage('La dsescripción de la tarea es obligatorio'),
   handleInputErrors,
   validateProjectExists,
-  TaskController.createTask)
+  TaskController.createTask
+)
 
-router.get('/:projectId/tasks',
-  validateProjectExists,
-  TaskController.getProjectTasks)
+router.get('/:projectId/tasks', validateProjectExists, TaskController.getProjectTasks)
 
 export default router
