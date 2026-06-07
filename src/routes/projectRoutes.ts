@@ -52,6 +52,21 @@ router.post(
   TaskController.createTask
 )
 
-router.get('/:projectId/tasks', validateProjectExists, TaskController.getProjectTasks)
+router.get(
+  '/:projectId/tasks',
+  param('projectId').isMongoId().withMessage('ID de proyecto no válido'),
+  handleInputErrors,
+  validateProjectExists,
+  TaskController.getProjectTasks
+)
+
+router.get(
+  '/:projectId/tasks/:taskId',
+  param('projectId').isMongoId().withMessage('ID de proyecto no válido'),
+  param('taskId').isMongoId().withMessage('ID de tarea no válido'),
+  handleInputErrors,
+  validateProjectExists,
+  TaskController.getTaskById
+)
 
 export default router

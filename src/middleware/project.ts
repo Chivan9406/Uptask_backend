@@ -22,6 +22,6 @@ export async function validateProjectExists(req: Request, res: Response, next: N
     req.project = project
     next()
   } catch (e) {
-    console.error(e)
+    return res.status(500).json({ error: 'Error al obtener los datos' })
   }
 }
