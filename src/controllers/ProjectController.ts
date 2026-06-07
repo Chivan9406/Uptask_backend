@@ -9,7 +9,7 @@ export class ProjectController {
       await project.save()
       res.send('Proyecto creado exitosamente')
     } catch (e) {
-      console.error(e)
+      res.status(500).json({ error: 'Error al crear el proyecto' })
     }
   }
 
@@ -18,7 +18,7 @@ export class ProjectController {
       const projects = await Project.find({})
       res.json(projects)
     } catch (e) {
-      console.error(e)
+      res.status(500).json({ error: 'Error al obtener los proyectos' })
     }
   }
 
@@ -35,7 +35,7 @@ export class ProjectController {
 
       res.json(project)
     } catch (e) {
-      console.error(e)
+      res.status(500).json({ error: 'Error al obtener el proyecto' })
     }
   }
 
@@ -53,7 +53,7 @@ export class ProjectController {
       await project.save()
       res.send('Proyecto actualizado exitosamente')
     } catch (e) {
-      console.error(e)
+      res.status(500).json({ error: 'Error al actualizar el proyecto' })
     }
   }
 
@@ -71,7 +71,7 @@ export class ProjectController {
       await project.deleteOne()
       res.send('Proyecto eliminado exitosamente')
     } catch (e) {
-      console.error(e)
+      res.status(500).json({ error: 'Error al eliminar el proyecto' })
     }
   }
 }
