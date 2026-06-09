@@ -4,6 +4,7 @@ import { body, param } from 'express-validator'
 import { handleInputErrors } from '../middleware/validation'
 import { TaskController } from '../controllers/TaskController'
 import { validateProjectExists } from '../middleware/project'
+import { validateTaskExists } from '../middleware/task'
 
 const router: Router = Router()
 
@@ -66,6 +67,7 @@ router.get(
   param('taskId').isMongoId().withMessage('ID de tarea no válido'),
   handleInputErrors,
   validateProjectExists,
+  validateTaskExists,
   TaskController.getTaskById
 )
 
@@ -77,6 +79,7 @@ router.put(
   body('description').notEmpty().withMessage('La descripción de la tarea es obligatorio'),
   handleInputErrors,
   validateProjectExists,
+  validateTaskExists,
   TaskController.updateTask
 )
 
@@ -86,6 +89,7 @@ router.delete(
   param('taskId').isMongoId().withMessage('ID de tarea no válido'),
   handleInputErrors,
   validateProjectExists,
+  validateTaskExists,
   TaskController.deleteTask
 )
 
@@ -96,6 +100,7 @@ router.post(
   body('status').notEmpty().withMessage('El estado de la tarea es obligatorio'),
   handleInputErrors,
   validateProjectExists,
+  validateTaskExists,
   TaskController.updateStatus
 )
 
