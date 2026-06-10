@@ -19,14 +19,18 @@ export async function validateTaskExists(req: Request, res: Response, next: Next
       return res.status(404).json({ error: error.message })
     }
 
-    if (!task.project.equals(req.project._id)) {
-      const error = new Error('Acción no válida')
-      return res.status(400).json({ error: error.message })
-    }
-
     req.task = task
     next()
   } catch (e) {
     return res.status(500).json({ error: 'Error al obtener los datos' })
   }
+}
+
+export function taskBelongsToProject(req: Request, res: Response, next: NextFunction) {
+  if (!req.task.project.equals(req.project._id)) {
+      const error = new Error('Acción no válida')
+      return res.status(400).json({ error: error.message })
+    }
+
+    next()
 }

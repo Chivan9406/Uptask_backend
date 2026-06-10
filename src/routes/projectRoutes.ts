@@ -4,7 +4,7 @@ import { body, param } from 'express-validator'
 import { handleInputErrors } from '../middleware/validation'
 import { TaskController } from '../controllers/TaskController'
 import { validateProjectExists } from '../middleware/project'
-import { validateTaskExists } from '../middleware/task'
+import { taskBelongsToProject, validateTaskExists } from '../middleware/task'
 
 const router: Router = Router()
 
@@ -68,6 +68,7 @@ router.get(
   handleInputErrors,
   validateProjectExists,
   validateTaskExists,
+  taskBelongsToProject,
   TaskController.getTaskById
 )
 
@@ -80,6 +81,7 @@ router.put(
   handleInputErrors,
   validateProjectExists,
   validateTaskExists,
+  taskBelongsToProject,
   TaskController.updateTask
 )
 
@@ -90,6 +92,7 @@ router.delete(
   handleInputErrors,
   validateProjectExists,
   validateTaskExists,
+  taskBelongsToProject,
   TaskController.deleteTask
 )
 
@@ -101,6 +104,7 @@ router.post(
   handleInputErrors,
   validateProjectExists,
   validateTaskExists,
+  taskBelongsToProject,
   TaskController.updateStatus
 )
 
