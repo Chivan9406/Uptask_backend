@@ -45,9 +45,7 @@ export class TaskController {
   static deleteTask = async (req: Request, res: Response) => {
     try {
       req.project.tasks = req.project.tasks.filter(task => task._id.equals(req.task._id))
-
       await Promise.allSettled([req.task.deleteOne(), req.project.save()])
-
       res.send('Tarea eliminada exitosamente')
     } catch (e) {
       res.status(500).json({ error: 'Error al actualizar la tarea' })

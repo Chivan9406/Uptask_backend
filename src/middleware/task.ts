@@ -10,8 +10,9 @@ declare global {
 }
 
 export async function validateTaskExists(req: Request, res: Response, next: NextFunction) {
+  const { taskId } = req.params
+
   try {
-    const { taskId } = req.params
     const task = await Task.findById(taskId)
 
     if (!task) {
