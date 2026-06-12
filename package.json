@@ -20,6 +20,7 @@
   "dependencies": {
     "@types/express": "^5.0.6",
     "colors": "^1.4.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
@@ -29,6 +30,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "prettier": "^3.8.3"
   }
 }
