@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import User, { IUser } from '../models/User'
-import { hashPassword } from '../utils/auth'
-import Token from '../models/Token'
+import { checkPassword, hashPassword } from '../utils/auth'
+import Token, { IToken } from '../models/Token'
 import { generateToken } from '../utils/token'
 import { AuthEmail } from '../emails/AuthEmail'
 
@@ -44,7 +44,7 @@ export class AuthController {
 
       if (!tokenExists) {
         const error = new Error('Token no válido')
-        return res.status(401).json({ error: error.message })
+        return res.status(404).json({ error: error.message })
       }
 
       const user: IUser = await User.findById(tokenExists.user)
@@ -54,6 +54,46 @@ export class AuthController {
       res.send('Cuenta confirmada exitosamente')
     } catch (error) {
       res.status(500).json({ error: 'Error al confirmar la cuenta' })
+    }
+  }
+
+  static login = async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body
+      const user: IUser = await User.findOne({ email })
+
+      if (!user) {
+        const error = new Error('Usuario no encontrado')
+        return res.status(404).json({ error: error.message })
+      }
+
+      if (!user.confirmed) {
+        const token: IToken = new Token()
+        token.user = user._id
+        token.token = generateToken()
+        await token.save()
+
+        await AuthEmail.sendConfirmationEmail({
+          email: user.email,
+          name: user.name,
+          token: token.token,
+        })
+
+        const error = new Error('Hemos enviado un correo para verificar tu cuenta')
+        return res.status(401).json({ error: error.message })
+      }
+
+      const isPasswordValid = await checkPassword(password, user.password)
+      console.log(isPasswordValid)
+
+      if (!isPasswordValid) {
+        const error = new Error('La contraseña es incorrecta')
+        return res.status(404).json({ error: error.message })
+      }
+
+      res.send('Autenticado')
+    } catch (error) {
+      res.status(500).json({ error: 'Error al iniciar sesión' })
     }
   }
 }
